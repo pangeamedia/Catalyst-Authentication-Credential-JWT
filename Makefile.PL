@@ -19,7 +19,6 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'Crypt::JWT' => 0,
-        'TryCatch' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Catalyst-Authentication-Credential-JWT-*' },

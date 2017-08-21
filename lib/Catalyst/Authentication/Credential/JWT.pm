@@ -16,7 +16,6 @@ __PACKAGE__->mk_accessors(qw/
 our $VERSION = '0.01';
 
 use Crypt::JWT qw/decode_jwt/;
-use TryCatch;
 use Catalyst::Exception ();
 
 sub new {
@@ -49,13 +48,13 @@ sub authenticate {
     $c->log->debug("Found token: $token") if $self->debug;
 
     my $jwt_data;
-    try {
+    eval {
         $jwt_data = decode_jwt(token=>$token, key=>$self->jwt_key, accepted_alg => $self->alg);
-    } catch ($e) {
+    } or do {
         # smt happended
-        $c->log->debug("Error decoding token: $e") if $self->debug;
+        $c->log->debug("Error decoding token: $@") if $self->debug;
         return;
-    }
+    };
 
     my $user_data = {
         %{ $authinfo // {} },
