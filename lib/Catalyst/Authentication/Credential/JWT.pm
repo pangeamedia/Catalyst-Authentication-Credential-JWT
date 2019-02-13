@@ -59,7 +59,7 @@ sub authenticate {
     my $user_data = {
         %{ $authinfo // {} },
     };
-    for (my $i = 0; $i < length(@{ $self->jwt_fields }); $i++) {
+    for (my $i = 0; $i < @{ $self->jwt_fields }; $i++) {
         $user_data->{$self->store_fields->[$i]} = $jwt_data->{$self->jwt_fields->[$i]};
     }
     my $user_obj = $realm->find_user($user_data, $c);
